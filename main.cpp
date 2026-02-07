@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include <iostream>
+#include "Ball.cpp"
+#include <vector>
 using namespace std;
 
 
@@ -91,7 +93,17 @@ void DrawCircleColor()
     
 }
 
+void updateBallPosition()
+{
+    xPos = xPos + xShift;
+    yPos = yPos + yShift;
+}
+
 int main() {
+    std::vector<Ball> balls;
+    balls.emplace_back(120, 30, 15);
+    balls.emplace_back(25, 50, 5);
+
     InitWindow(screenWidth, screenHeight, "Kocham_Mysq.EXE");
     SetTargetFPS(60);
 
@@ -101,9 +113,16 @@ int main() {
         BeginDrawing();
         ClearBackground(BLACK);
         
+        for (size_t i = 0; i < balls.size(); i++)
+        {
+            balls[i].updateBallPosition();
+            balls[i].DrawCircleColor();
+            balls[i].checkForDirChange();
+        }
+
             //drawing the circle
-            xPos = xPos + xShift;
-            yPos = yPos + yShift;
+            updateBallPosition();
+            
             DrawCircleColor();
             if (xPos <= 20 || xPos >= (screenWidth - 20) || yPos <= 20 || yPos >= (screenHeight - 20))
             {
