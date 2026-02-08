@@ -95,7 +95,7 @@ public:
         xPos = xPos + xShift;
         yPos = yPos + yShift;
     }
-
+//
     void checkForDirChange()
     {
         if (xPos <= 20 || xPos >= (screenWidth - 20) || yPos <= 20 || yPos >= (screenHeight - 20))
