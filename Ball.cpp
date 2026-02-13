@@ -7,8 +7,10 @@ class Ball
 private:
 
     //this implementation makes ball always follow 45 degree angle
-	int positiveShift = 3;          
-    int negativeShift = -3;         
+	int XpositiveShift = 3;          
+    int XnegativeShift = -3;
+    int YpositiveShift = 1;
+    int YnegativeShift = -1;
     
     //this implementation makes ball always start with rightdown direction, setting direction setting might be used in the constructor for setting
     //TODO: how rest of program will know enum?
@@ -44,8 +46,8 @@ public:
         : xPos(x), yPos(y), radius(r), screenWidth(screenW), screenHeight(screenH), currentDir(dir)
     {
         // ustaw shift zgodnie z dir (albo zawołaj changeDirection "od zera")
-        xShift = positiveShift;
-        yShift = positiveShift;
+        xShift = XpositiveShift;
+        yShift = YpositiveShift;
     }
 
     //returns target direction based on movement of a ball and wall it hits.
@@ -134,63 +136,6 @@ public:
         return RIGHTDOWN;
     }
 
-
-    //classic change direction function, works like "cyclic circle (RD->RU->LU->LD->RD->...)"
-    void changeDirection()
-    {
-        switch (currentDir)
-        {
-        case RIGHTDOWN:
-            if (yPos >= screenHeight - ((radius * 3) + 5) )
-            {
-                currentDir = RIGHTUP;
-                xShift = positiveShift;
-                yShift = negativeShift;
-                cout << "[N] zmiana pozycji z RIGHTDOWN na RIGHTUP" << endl;
-                break;
-            }
-            else //kulka uderza w prawa scianke
-            {
-                currentDir = LEFTDOWN;
-                xShift = negativeShift;
-                yShift = positiveShift;
-                cout << " [N] zmiana pozycji LEFTDOWN" << endl;
-                break;
-            }
-            
-        case RIGHTUP:
-            currentDir = LEFTUP;
-            xShift = negativeShift;
-            yShift = negativeShift;
-            cout << "zmiana pozycji LEFTUP" << endl;
-            break;
-        case LEFTUP:
-            if (yPos < (radius * 4))
-            {
-                currentDir = LEFTDOWN;
-                xShift = negativeShift;
-                yShift = positiveShift;
-                cout << "zmiana pozycji LEFTDOWN" << endl;
-                break;
-            }
-            else
-            {
-                currentDir = RIGHTUP;
-                xShift = positiveShift;
-                yShift = positiveShift;
-                cout << "zmiana pozycji LEFTDOWN" << endl;
-                break;
-            }
-            
-        case LEFTDOWN:
-            currentDir = RIGHTDOWN;
-            xShift = positiveShift;
-            yShift = positiveShift;
-            cout << "zmiana pozycji RIGHTDOWN" << endl;
-            break;
-        }
-    }
-
     //reworked function of changing direction, direction change no longer follows "circle pattern" instead, direction is changed to the direction passed as an argument
     //possible problem: enum of direction is a part of a class. How method outside will know which change to pass?
     //TODO: another method/function to correct out of bounds/ inside obstacle problem.
@@ -203,29 +148,29 @@ public:
             //changes ball movement to right and down
             case RIGHTDOWN:
                     currentDir = RIGHTDOWN;
-                    xShift = positiveShift;
-                    yShift = positiveShift;
+                    xShift = XpositiveShift;
+                    yShift = YpositiveShift;
                     cout << "direction changed to RIGHTDOWN" << endl;
                     break;
 
             case RIGHTUP:
                 currentDir = RIGHTUP;
-                xShift = positiveShift;
-                yShift = negativeShift;
+                xShift = XpositiveShift;
+                yShift = YnegativeShift;
                 cout << "direction changed to RIGHTUP" << endl;
                 break;
 
             case LEFTUP:
                 currentDir = LEFTUP;
-                xShift = negativeShift;
-                yShift = negativeShift;
+                xShift = XnegativeShift;
+                yShift = YnegativeShift;
                 cout << "direction changed to LEFTUP" << endl;
                 break;
 
             case LEFTDOWN:
                 currentDir = LEFTDOWN;
-                xShift = negativeShift;
-                yShift = positiveShift;
+                xShift = XnegativeShift;
+                yShift = YpositiveShift;
                 cout << "direction changed to LEFTDOWN" << endl;
                 break;
         }
